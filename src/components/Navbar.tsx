@@ -29,6 +29,7 @@ const Navbar = ({ onMenuClick }: NavbarProps) => {
         <nav className="hidden md:flex items-center space-x-6">
           <Link to="/" className="hover:text-football-accent transition-colors">Home</Link>
           <Link to="/standings" className="hover:text-football-accent transition-colors">Standings</Link>
+          <Link to="/virtual-football" className="hover:text-football-accent transition-colors">Virtual Football</Link>
           <Link to="/teams" className="hover:text-football-accent transition-colors">Teams</Link>
           <Link to="/matches" className="hover:text-football-accent transition-colors">Matches</Link>
           <Link to="/analysis" className="hover:text-football-accent transition-colors">Analysis</Link>

@@ -1,87 +1,46 @@
+import React, { ReactNode } from 'react';
 
-import { X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+// Define Prop types
+interface SidebarProps { children: ReactNode; /* other props */ }
+interface SidebarSectionProps { children: ReactNode; /* other props */ }
+interface SidebarItemProps { children: ReactNode; href?: string; /* other props */ }
+// ... types for Header, Body, Footer, Label, Spacer
 
-interface SidebarProps {
-  open: boolean;
-  onClose: () => void;
-}
+// Define SubComponents
+const SidebarHeader = ({ children }: { children: ReactNode }) => <header>{children}</header>;
+const SidebarBody = ({ children }: { children: ReactNode }) => <div>{children}</div>;
+const SidebarFooter = ({ children }: { children: ReactNode }) => <footer>{children}</footer>;
+const SidebarSection = ({ children }: SidebarSectionProps) => <section>{children}</section>;
+const SidebarItem = ({ children, href }: SidebarItemProps) => <div><a href={href}>{children}</a></div>; // Simplified
+const SidebarLabel = ({ children }: { children: ReactNode }) => <span>{children}</span>;
+const SidebarSpacer = () => <hr />;
 
-const Sidebar = ({ open, onClose }: SidebarProps) => {
-  return (
-    <div 
-      className={`fixed inset-y-0 left-0 transform md:relative md:translate-x-0 
-                  md:w-64 z-20 bg-white shadow-lg transition-transform duration-300 ease-in-out
-                  ${open ? 'translate-x-0' : '-translate-x-full'}`}
-    >
-      <div className="p-4 border-b">
-        <div className="flex justify-between items-center">
-          <h2 className="font-bold text-xl text-football-blue">
-            Navigation
-          </h2>
-          <Button 
-            variant="ghost" 
-            size="icon" 
-            onClick={onClose}
-            className="md:hidden"
-          >
-            <X className="h-6 w-6" />
-          </Button>
-        </div>
-      </div>
-      
-      <nav className="p-4">
-        <ul className="space-y-2">
-          <li>
-            <Link 
-              to="/" 
-              className="block p-2 rounded hover:bg-football-accent hover:text-white transition-colors"
-              onClick={onClose}
-            >
-              Home
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/standings" 
-              className="block p-2 rounded hover:bg-football-accent hover:text-white transition-colors"
-              onClick={onClose}
-            >
-              Standings
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/teams" 
-              className="block p-2 rounded hover:bg-football-accent hover:text-white transition-colors"
-              onClick={onClose}
-            >
-              Teams
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/matches" 
-              className="block p-2 rounded hover:bg-football-accent hover:text-white transition-colors"
-              onClick={onClose}
-            >
-              Matches
-            </Link>
-          </li>
-          <li>
-            <Link 
-              to="/analysis" 
-              className="block p-2 rounded hover:bg-football-accent hover:text-white transition-colors"
-              onClick={onClose}
-            >
-              Analysis
-            </Link>
-          </li>
-        </ul>
-      </nav>
-    </div>
-  );
+// Define Main Component Type with Static Properties
+// Use an interface or type alias to define the component's signature AND its static members
+type SidebarComponent = React.FC<SidebarProps> & {
+  Header: typeof SidebarHeader;
+  Body: typeof SidebarBody;
+  Footer: typeof SidebarFooter;
+  Section: typeof SidebarSection;
+  Item: typeof SidebarItem;
+  Label: typeof SidebarLabel;
+  Spacer: typeof SidebarSpacer;
 };
 
+// Define the main component implementation
+// Cast the component to the extended type
+const Sidebar: SidebarComponent = ({ children }) => {
+  return <nav className="sidebar">{children}</nav>; // Or whatever the root element is
+};
+
+// Attach static properties
+Sidebar.Header = SidebarHeader;
+Sidebar.Body = SidebarBody;
+Sidebar.Footer = SidebarFooter;
+Sidebar.Section = SidebarSection;
+Sidebar.Item = SidebarItem;
+Sidebar.Label = SidebarLabel;
+Sidebar.Spacer = SidebarSpacer;
+
+// Export default
 export default Sidebar;
